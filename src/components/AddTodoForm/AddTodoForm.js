@@ -1,3 +1,4 @@
+import './AddTodoForm.css';
 import React, {useState} from 'react';
 
 function AddTodoForm (props) {
@@ -18,10 +19,8 @@ function AddTodoForm (props) {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label htmlFor="new-todo">
-        What needs to be done?
-      </label>
+    <form onSubmit={handleSubmit} className="AddTodoForm">
+      <p>What needs to be done?</p>
       <input
         id="new-todo"
         onChange={(e) => setInputText(e.target.value)}

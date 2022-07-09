@@ -1,15 +1,75 @@
+.TodoFilter{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.TodoFilter > div{
+  display: flex;
+  margin: 0.5rem;
+}
+.TodoFilter > div > div{
+  display: flex;
+  align-items: center;
+  background-color: rgb(240, 240, 240);
+  padding: 0.5em 1em;
+  margin: 0 .25rem;
+  border-radius: 1em;
+}
+.TodoFilter > div > div:hover{
+  background-color: rgb(220, 220, 220);
+}
+.TodoFilter :is(input, label){
+  cursor: pointer;
+}
+.TodoFilter .selectedFilter {
+  background-color: rgb(220, 220, 220);
+}
 .TodoList{
+  display: flex;
+  gap: .5rem;
+  flex-wrap: wrap;
   padding: 1rem;
   margin: 0;
+}
+.TodoList > div {
+  border-radius: .5em;
+  flex-grow: 1;
+  min-width: 50ch;
+  max-width: 100%;
+  background-color: rgb(250, 250, 250);
+
 }
 .TodoList .item {
   display: flex;
   align-items: center;
-  padding: 0.5rem;
+  padding: 0.5em 1em;
+  max-width: 100%;
+  margin: 0.5rem;
+  border-radius: .5em;
+  background-color: rgb(240, 240, 240);
+}
+.TodoList .item button{
+  border: 0;
+  padding: 0.5em 1em;
+  background-color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+}
+.TodoList .item button:is(:hover, :hover){
+  background-color: rgba(255, 255, 255, 0.7);
+}
+.TodoList .item button:nth-of-type(1){
+  border-radius: .5em 0 0 .5em;
+}
+.TodoList .item button:nth-last-of-type(1){
+  border-radius: 0 .5em .5em 0;
 }
 .TodoList .item > p{
   flex-grow: 1;
+  cursor: default;
   margin: 0;
+}
+.TodoList .item > div{
+  display: flex;
 }
 
 .TodoList .active{
@@ -19,7 +79,7 @@
   background-color: rgb(108, 232, 108);
 }
 .TodoList .item:hover {
-  background-color: rgb(240, 240, 240);
+  background-color: rgb(230, 230, 230);
 }
 .TodoList .active:hover {
   background-color: rgb(240, 230, 50);

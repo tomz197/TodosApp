@@ -1,6 +1,7 @@
 import React from 'react';
+import './App.css'
 import TodoList from './components/TodoList/TodoList';
-import AddTodoForm from "./components/AddTodoForm";
+import AddTodoForm from "./components/AddTodoForm/AddTodoForm";
 
 class TodoApp extends React.Component {
   constructor(props) {
@@ -15,8 +16,8 @@ class TodoApp extends React.Component {
 
   render() {
     return (
-      <div>
-        <h3>TODO</h3>
+      <div className="App">
+        <h2>TODO</h2>
         <AddTodoForm 
           handleSubmit={this.handleSubmit} 
           itemsLen={this.state.items.length}/>
