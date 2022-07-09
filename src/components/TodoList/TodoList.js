@@ -42,7 +42,7 @@ function TodoList(props) {
     <div className="TodoFilter" onChange={(e) => setFilter(e.target.value)}>
         <div>
           <div className={filter === '' && "selectedFilter"}>
-            <input type="radio" value={undefined} name="filter" id="filter1" checked={filter === '' && true}/>
+            <input type="radio" value={undefined} name="filter" id="filter1" defaultChecked/>
             <label htmlFor="filter1">all</label>
           </div>
           <div className={filter === 'active' && "selectedFilter"}>
