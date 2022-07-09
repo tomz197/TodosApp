@@ -41,15 +41,15 @@ function TodoList(props) {
     <>
     <div className="TodoFilter" onChange={(e) => setFilter(e.target.value)}>
         <div>
-          <div className={filter === '' && "selectedFilter"}>
+          <div className={filter === '' ? "selectedFilter" : ""}>
             <input type="radio" value={undefined} name="filter" id="filter1" defaultChecked/>
             <label htmlFor="filter1">all</label>
           </div>
-          <div className={filter === 'active' && "selectedFilter"}>
+          <div className={filter === 'active' ? "selectedFilter" : ""}>
             <input type="radio" value="active" name="filter" id="filter2"/>
             <label htmlFor="filter2">in progress</label>
           </div>
-          <div className={filter === 'ended' && "selectedFilter"}>
+          <div className={filter === 'ended' ? "selectedFilter" : ""}>
             <input type="radio" value="ended" name="filter" id="filter3"/>
             <label htmlFor="filter3">finished</label>
           </div>
