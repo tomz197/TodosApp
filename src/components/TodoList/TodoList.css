@@ -8,6 +8,7 @@
   margin: 0.5rem;
 }
 .TodoFilter > div > div{
+  position: relative;
   display: flex;
   align-items: center;
   background-color: rgb(240, 240, 240);
@@ -20,6 +21,14 @@
 }
 .TodoFilter :is(input, label){
   cursor: pointer;
+}
+.TodoFilter input{
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  opacity: 0;
 }
 .TodoFilter .selectedFilter {
   background-color: rgb(220, 220, 220);
