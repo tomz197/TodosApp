@@ -8,6 +8,7 @@ class TodoApp extends React.Component {
     super(props);
     this.state = {
       items: [],
+      deletedItems: [],
       filter: ""
     };
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -59,6 +60,7 @@ class TodoApp extends React.Component {
     this.setState(state => {
       let items = state.items;
       items = items.filter(it => it.id !== item.id);
+      state.deletedItems.push(item);
       return {
         items
       }
