@@ -76,12 +76,14 @@
   border-radius: 0 .5em .5em 0;
 }
 .TodoList .item > p{
+  overflow-x: auto;
   flex-grow: 1;
   cursor: default;
   margin: 0;
 }
 .TodoList .item > div{
   display: flex;
+  margin-left: .5rem;
 }
 
 .TodoList .active{

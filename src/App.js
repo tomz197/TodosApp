@@ -20,8 +20,8 @@ class TodoApp extends React.Component {
       <div className="App">
         <h2>TODO</h2>
         <AddTodoForm 
-          handleSubmit={this.handleSubmit} 
-          itemsLen={this.state.items.length}/>
+          handleSubmit={this.handleSubmit}
+        />
         <TodoList
           items={this.state.items}
           handleDelete={this.handleDelete}

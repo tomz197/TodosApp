@@ -1,7 +1,7 @@
 import './AddTodoForm.css';
 import React, {useState} from 'react';
 
-function AddTodoForm (props) {
+const AddTodoForm = (props) => {
   const [inputText, setInputText] = useState("");
 
   const handleSubmit = (e) => {
@@ -27,7 +27,7 @@ function AddTodoForm (props) {
         value={inputText}
       />
       <button>
-        Add #{props.itemsLen + 1}
+        Add
       </button>
     </form>
   );

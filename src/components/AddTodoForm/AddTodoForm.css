@@ -26,6 +26,7 @@
   border-radius: 0 1em 1em 0;
   background-color: rgb(220, 220, 220);
   cursor: pointer;
+  font-weight: 600;
 }
 .AddTodoForm button:is(:hover, :focus){
   background-color: rgb(210, 210, 210);
