@@ -36,29 +36,33 @@ function TodoList(props) {
     }
   });
 
+  const handleFilter = (e) => {
+    setFilter(e.target.value === filter ? "" : e.target.value)
+  }
+
 
   return (
     <>
-    <div className="TodoFilter" onChange={(e) => setFilter(e.target.value)}>
+    <div className="TodoFilter" onChange={(e) => handleFilter(e)}>
         <div>
           <div className={filter === '' ? "selectedFilter" : ""}>
-            <input type="radio" value={undefined} name="filter" id="filter1" defaultChecked/>
+            <input type="radio" onClick={(e) => handleFilter(e)} value={undefined} name="filter" id="filter1" defaultChecked/>
             <label htmlFor="filter1">all</label>
           </div>
           <div className={filter === 'active' ? "selectedFilter" : ""}>
-            <input type="radio" value="active" name="filter" id="filter2"/>
+            <input type="radio" onClick={(e) => handleFilter(e)} value="active" name="filter" id="filter2"/>
             <label htmlFor="filter2">in progress</label>
           </div>
           <div className={filter === 'ended' ? "selectedFilter" : ""}>
-            <input type="radio" value="ended" name="filter" id="filter3"/>
+            <input type="radio" onClick={(e) => handleFilter(e)} value="ended" name="filter" id="filter3"/>
             <label htmlFor="filter3">finished</label>
           </div>
         </div>
     </div>
     <ul className="TodoList">
-      {notStarted.length > 0 && <div>{notStarted}</div>}
-      {active.length > 0 && <div>{active}</div>}
-      {ended.length > 0 && <div>{ended}</div>}
+      {notStarted.length > 0 && <div><h4>Not started</h4>{notStarted}</div>}
+      {active.length > 0 && <div><h4>In progress</h4>{active}</div>}
+      {ended.length > 0 && <div><h4>Finished</h4>{ended}</div>}
     </ul>
     </>
   );
