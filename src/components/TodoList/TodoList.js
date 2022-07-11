@@ -1,13 +1,17 @@
-import "./TodoList.css"
-import React, {useState} from "react"
+import "./TodoList.css";
+import React, {useState} from "react";
+import {useSelector, useDispatch} from 'react-redux';
+import {deleteTodo, updateTodoState} from '../../actions/todos';
 
-const TodoList = (props) => {
+const TodoList = () => {
+  const dispatch = useDispatch();
+  const items = useSelector(state => state.todos);
   const [filter, setFilter] = useState("");
   let notStarted = [];
   let active = [];
   let ended = [];
 
-  props.items.forEach(item => {
+  items.forEach(item => {
     if (item.state !== filter && filter !== "") return;
     const newItem = 
       <li
@@ -15,11 +19,15 @@ const TodoList = (props) => {
         key={item.id}>
         <p>{item.text}</p>
         <div>
-          {item.state === "ended" && <button onClick={(e) => props.handleState(item.id, "")}>not&nbsp;started</button>}
-          {item.state !== "ended" && <button onClick={(e) => props.handleState(item.id, "ended")}>finished</button>}
-          {item.state === "active" && <button onClick={(e) => props.handleState(item.id, "")}>not&nbsp;started</button>}
-          {item.state !== "active" && <button onClick={(e) => props.handleState(item.id, "active")}>in&nbsp;progress</button>}
-          <button onClick={(e) => props.handleDelete(item)}>delete</button>
+          {item.state === "ended" 
+          && <button onClick={(e) => dispatch(updateTodoState(item.id, ""))}>not&nbsp;started</button>}
+          {item.state !== "ended" 
+          && <button onClick={(e) => dispatch(updateTodoState(item.id, "ended"))}>finished</button>}
+          {item.state === "active" 
+          && <button onClick={(e) => dispatch(updateTodoState(item.id, ""))}>not&nbsp;started</button>}
+          {item.state !== "active" 
+          && <button onClick={(e) => dispatch(updateTodoState(item.id, "active"))}>in&nbsp;progress</button>}
+          <button onClick={(e) => dispatch(deleteTodo(item))}>delete</button>
         </div>
       </li>
     

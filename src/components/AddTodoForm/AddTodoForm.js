@@ -1,7 +1,10 @@
 import './AddTodoForm.css';
 import React, {useState} from 'react';
+import {useDispatch} from 'react-redux';
+import {addTodo} from '../../actions/todos';
 
-const AddTodoForm = (props) => {
+const AddTodoForm = () => {
+  const dispatch = useDispatch();
   const [inputText, setInputText] = useState("");
 
   const handleSubmit = (e) => {
@@ -14,7 +17,7 @@ const AddTodoForm = (props) => {
       state: "",
       id: Date.now()
     };
-    props.handleSubmit(newItem);
+    dispatch(addTodo(newItem));
     setInputText("");
   }
 

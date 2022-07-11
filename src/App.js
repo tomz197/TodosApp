@@ -4,67 +4,15 @@ import TodoList from './components/TodoList/TodoList';
 import AddTodoForm from "./components/AddTodoForm/AddTodoForm";
 
 class TodoApp extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      items: [],
-      deletedItems: [],
-      filter: ""
-    };
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleState = this.handleState.bind(this);
-  }
 
   render() {
     return (
       <div className="App">
         <h2>TODO</h2>
-        <AddTodoForm 
-          handleSubmit={this.handleSubmit}
-        />
-        <TodoList
-          items={this.state.items}
-          handleDelete={this.handleDelete}
-          handleState={this.handleState}
-        />
+        <AddTodoForm/>
+        <TodoList/>
       </div>
     );
-  }
-
-  handleState = (itemId, newState) => {
-    this.setState(state => {
-      let items = state.items.map(item => 
-        item.id === itemId
-        ? {...item, state: newState}
-        : item
-      );
-      return {
-        items
-      }
-    });
-  }
-
-  handleSubmit = (newItem) => {
-    this.setState(state => {
-      let items = state.items;
-      items.push(newItem);
-
-      return {
-        items,
-        text: ''
-      };
-    });
-  }
-
-  handleDelete = (item) => {
-    this.setState(state => {
-      let items = state.items;
-      items = items.filter(it => it.id !== item.id);
-      state.deletedItems.push(item);
-      return {
-        items
-      }
-    });
   }
 }
 
