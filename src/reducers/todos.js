@@ -2,10 +2,19 @@ const todosReducer = (state = [], action) => {
   switch(action.type){
 
     case 'ADDTODO':
-      return [...state, action.payload];
+      return [...state, {
+        text: action.payload,
+        state: "",
+        deleted: false,
+        id: Date.now()
+      }];
 
     case 'DELETETODO':
-      return state.filter(item => item.id !== (action.payload.id));
+      return state.map(item => 
+        item.id === action.payload.id
+        ? {...item, deleted: true}
+        : item
+      );
 
     case 'UPDATETODOSTATE':
       return state.map(item => 
@@ -16,6 +25,6 @@ const todosReducer = (state = [], action) => {
       
     default:
       return state;
-  };
+  }
 };
 export default todosReducer;

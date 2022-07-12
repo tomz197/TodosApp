@@ -5,7 +5,7 @@ import {deleteTodo, updateTodoState} from '../../actions/todos';
 
 const TodoList = () => {
   const dispatch = useDispatch();
-  const items = useSelector(state => state.todos);
+  const items = useSelector(state => state.todos.filter(item => !item.deleted));
   const [filter, setFilter] = useState("");
   let notStarted = [];
   let active = [];

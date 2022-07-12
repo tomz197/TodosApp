@@ -1,7 +1,7 @@
-const addTodo = (item) => {
+const addTodo = (text) => {
   return {
     type: 'ADDTODO',
-    payload: item
+    payload: text
   };
 };
 const deleteTodo = (item) => {

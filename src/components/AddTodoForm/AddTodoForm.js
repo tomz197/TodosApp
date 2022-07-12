@@ -12,12 +12,18 @@ const AddTodoForm = () => {
     if (!inputText.length) {
       return;
     }
-    const newItem = {
-      text: inputText,
-      state: "",
-      id: Date.now()
-    };
-    dispatch(addTodo(newItem));
+    fetch('http://localhost:8080/todo', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*'
+      },
+      body: JSON.stringify({
+        text: inputText,
+      })
+    }).then((res) => console.log(res));
+    dispatch(addTodo(inputText));
     setInputText("");
   }
 
