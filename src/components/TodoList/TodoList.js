@@ -11,15 +11,33 @@ const TodoList = () => {
   let active = [];
   let ended = [];
 
-  useEffect(async () => {
-    try{
-      const res = await fetch('http://localhost:8080/todo')
-      const json = await res.json();
-      dispatch(loadTodos(json));
+  const getTodos = async () => {
+    fetch('http://localhost:8080/todo', {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*'
+      }
+    }).then((res) => {
       console.log(res);
-    }catch{
-      console.log("failed to load")
-    }
+      return res.json();
+    }).then((data) => {
+      dispatch(loadTodos(data));
+    });
+    // try{
+    //   const res = await fetch('http://localhost:8080/todo')
+    //   console.log(res)
+    //   const json = await res.json();
+    //   dispatch(loadTodos(json));
+    //   console.log(res);
+    // }catch{
+    //   console.log("failed to load")
+    // }
+  }
+  
+  useEffect(() => {
+    getTodos();
   }, []);
   
   const handleUpdate = (itemId, newState) => {
