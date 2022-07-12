@@ -1,15 +1,62 @@
 import "./TodoList.css";
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import {useSelector, useDispatch} from 'react-redux';
-import {deleteTodo, updateTodoState} from '../../actions/todos';
+import {deleteTodo, updateTodoState, loadTodos} from '../../actions/todos';
 
 const TodoList = () => {
   const dispatch = useDispatch();
-  const items = useSelector(state => state.todos.filter(item => !item.deleted));
+  const items = useSelector(state => state.todos);
   const [filter, setFilter] = useState("");
   let notStarted = [];
   let active = [];
   let ended = [];
+
+  useEffect(async () => {
+    try{
+      const res = await fetch('http://localhost:8080/todo')
+      const json = await res.json();
+      dispatch(loadTodos(json));
+      console.log(res);
+    }catch{
+      console.log("failed to load")
+    }
+  }, []);
+  
+  const handleUpdate = (itemId, newState) => {
+    fetch('http://localhost:8080/todo', {
+      method: 'PUT',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*'
+      },
+      body: JSON.stringify({
+        id: itemId,
+        newState: newState
+      })
+    }).then((res) => {
+      console.log(res);
+      return res.json();
+    }).then((data) => {
+      dispatch(updateTodoState(itemId, newState));
+    });
+  }
+
+  const handleDelete = (itemId) => {
+    fetch('http://localhost:8080/todo/'+itemId, {
+      method: 'DELETE',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*'
+      }
+    }).then((res) => {
+      console.log(res);
+      return res.json();
+    }).then((data) => {
+      dispatch(deleteTodo(itemId));
+    });
+  }
 
   items.forEach(item => {
     if (item.state !== filter && filter !== "") return;
@@ -20,22 +67,22 @@ const TodoList = () => {
         <p>{item.text}</p>
         <div>
           {item.state === "ended" 
-          && <button onClick={(e) => dispatch(updateTodoState(item.id, ""))}>not&nbsp;started</button>}
+          && <button onClick={(e) => handleUpdate(item.id, 0)}>not&nbsp;started</button>}
           {item.state !== "ended" 
-          && <button onClick={(e) => dispatch(updateTodoState(item.id, "ended"))}>finished</button>}
+          && <button onClick={(e) => handleUpdate(item.id, 2)}>finished</button>}
           {item.state === "active" 
-          && <button onClick={(e) => dispatch(updateTodoState(item.id, ""))}>not&nbsp;started</button>}
+          && <button onClick={(e) => handleUpdate(item.id, 0)}>not&nbsp;started</button>}
           {item.state !== "active" 
-          && <button onClick={(e) => dispatch(updateTodoState(item.id, "active"))}>in&nbsp;progress</button>}
-          <button onClick={(e) => dispatch(deleteTodo(item))}>delete</button>
+          && <button onClick={(e) => handleUpdate(item.id, 1)}>in&nbsp;progress</button>}
+          <button onClick={(e) => handleDelete(item.id)}>delete</button>
         </div>
       </li>
     
     switch (item.state){
-      case "active":
+      case 1:
         active.push(newItem);
         break;
-      case "ended":
+      case 2:
         ended.push(newItem);
         break;
       default:

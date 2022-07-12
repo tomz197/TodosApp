@@ -29,7 +29,13 @@ app.route('/todo')
   res.status(200).send(todos);
 })
 .post((req, res) => {
+  if (req.body.text === undefined) {
+    console.log("todo POST: invalid JSON format");
+    res.status(500).send({ok: false, Error: 'Invalid JSON format'});
+    return;
+  }
   if (typeof req.body.text !== 'string') {
+    console.log("todo POST: wrong type")
     res.status(500).send({ok: false, Error: 'Invalid type'});
     return;
   }
@@ -44,11 +50,13 @@ app.route('/todo')
   res.send(todos.at(-1))
 })
 .put((req, res) => {
-  if (!req.body.id || !req.body.newState){
+  if (req.body.id === undefined || req.body.newState === undefined){
+    console.log("todo PUT: invalid JSON format")
     res.status(500).send({ok: false, Error: 'Invalit JSON format'});
     return;
   }
   if (typeof req.body.newState !== 'number' || typeof req.body.id !== 'number') {
+    console.log("todo PUT: wrong type")
     res.status(500).send({ok: false, Error: 'Invalid type'});
     return;
   }
@@ -69,7 +77,6 @@ app.route('/todo')
 app.delete('/todo/:todoId', (req, res) => {
   let newList = todos;
   todos = newList.filter(item => item.id !== parseInt(req.params.todoId));
-  
   updateData();
   res.status(200).send({ok: true, message: `Todo ${req.params.todoId} deleted`});
 })

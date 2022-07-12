@@ -22,8 +22,13 @@ const AddTodoForm = () => {
       body: JSON.stringify({
         text: inputText,
       })
-    }).then((res) => console.log(res));
-    dispatch(addTodo(inputText));
+    }).then((res) => {
+      console.log(res);
+      return res.json();
+    }).then((data) => {
+      console.log(data);
+      dispatch(addTodo(data));
+    });
     setInputText("");
   }
 

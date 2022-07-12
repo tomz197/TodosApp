@@ -4,10 +4,16 @@ const addTodo = (text) => {
     payload: text
   };
 };
-const deleteTodo = (item) => {
+const loadTodos = (todos) => {
+  return {
+    type: 'LOADTODOS',
+    payload: todos
+  };
+};
+const deleteTodo = (itemId) => {
   return {
     type: 'DELETETODO',
-    payload: item
+    payload: itemId
   };
 };
 const updateTodoState = (itemId, newState) => {
@@ -18,4 +24,4 @@ const updateTodoState = (itemId, newState) => {
   };
 }
 
-export { addTodo, deleteTodo, updateTodoState };
+export { addTodo, deleteTodo, updateTodoState, loadTodos };
