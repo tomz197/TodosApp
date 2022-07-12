@@ -60,9 +60,20 @@ const TodoList = () => {
 
   items.forEach(item => {
     if (item.state !== filter && filter !== "") return;
+    let itemClass;
+    switch (item.state){
+      case 1:
+        itemClass = "active";
+        break;
+      case 2:
+        itemClass = "ended";
+        break;
+      default:
+        itemClass = "notStarted";
+    }
     const newItem = 
       <li
-        className={"item " + item.state}
+        className={"item " + itemClass}
         key={item.id}>
         <p>{item.text}</p>
         <div>
