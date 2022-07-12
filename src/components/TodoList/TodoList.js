@@ -6,7 +6,7 @@ import {deleteTodo, updateTodoState, loadTodos} from '../../actions/todos';
 const TodoList = () => {
   const dispatch = useDispatch();
   const items = useSelector(state => state.todos);
-  const [filter, setFilter] = useState("");
+  const [filter, setFilter] = useState("-1");
   let notStarted = [];
   let active = [];
   let ended = [];
@@ -59,7 +59,7 @@ const TodoList = () => {
   }
 
   items.forEach(item => {
-    if (item.state !== filter && filter !== "") return;
+    if (item.state !== parseInt(filter) && filter !== "-1") return;
     let itemClass;
     switch (item.state){
       case 1:
@@ -77,13 +77,13 @@ const TodoList = () => {
         key={item.id}>
         <p>{item.text}</p>
         <div>
-          {item.state === "ended" 
+          {item.state === 2 
           && <button onClick={(e) => handleUpdate(item.id, 0)}>not&nbsp;started</button>}
-          {item.state !== "ended" 
+          {item.state !== 2 
           && <button onClick={(e) => handleUpdate(item.id, 2)}>finished</button>}
-          {item.state === "active" 
+          {item.state === 1 
           && <button onClick={(e) => handleUpdate(item.id, 0)}>not&nbsp;started</button>}
-          {item.state !== "active" 
+          {item.state !== 1 
           && <button onClick={(e) => handleUpdate(item.id, 1)}>in&nbsp;progress</button>}
           <button onClick={(e) => handleDelete(item.id)}>delete</button>
         </div>
@@ -102,7 +102,7 @@ const TodoList = () => {
   });
 
   const handleFilter = (e) => {
-    setFilter(e.target.value === filter ? "" : e.target.value)
+    setFilter(e.target.value === filter ? "-1" : e.target.value)
   }
 
 
@@ -110,16 +110,20 @@ const TodoList = () => {
     <>
     <div className="TodoFilter" onChange={(e) => handleFilter(e)}>
         <div>
-          <div className={filter === '' ? "selectedFilter" : ""}>
-            <input type="radio" onClick={(e) => handleFilter(e)} value={undefined} name="filter" id="filter1" defaultChecked/>
+          <div className={filter === '-1' ? "selectedFilter" : ""}>
+            <input type="radio" onClick={(e) => handleFilter(e)} value="-1" name="filter" id="filter1" defaultChecked/>
             <label htmlFor="filter1">all</label>
           </div>
-          <div className={filter === 'active' ? "selectedFilter" : ""}>
-            <input type="radio" onClick={(e) => handleFilter(e)} value="active" name="filter" id="filter2"/>
+          <div className={filter === '0' ? "selectedFilter" : ""}>
+            <input type="radio" onClick={(e) => handleFilter(e)} value="0" name="filter" id="filter1" defaultChecked/>
+            <label htmlFor="filter1">Not Started</label>
+          </div>
+          <div className={filter === '1' ? "selectedFilter" : ""}>
+            <input type="radio" onClick={(e) => handleFilter(e)} value="1" name="filter" id="filter2"/>
             <label htmlFor="filter2">in progress</label>
           </div>
-          <div className={filter === 'ended' ? "selectedFilter" : ""}>
-            <input type="radio" onClick={(e) => handleFilter(e)} value="ended" name="filter" id="filter3"/>
+          <div className={filter === '2' ? "selectedFilter" : ""}>
+            <input type="radio" onClick={(e) => handleFilter(e)} value="2" name="filter" id="filter3"/>
             <label htmlFor="filter3">finished</label>
           </div>
         </div>
