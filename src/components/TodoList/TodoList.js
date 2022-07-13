@@ -19,21 +19,10 @@ const TodoList = () => {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*'
       }
-    }).then((res) => {
-      console.log(res);
-      return res.json();
-    }).then((data) => {
-      dispatch(loadTodos(data));
-    });
-    // try{
-    //   const res = await fetch('http://localhost:8080/todo')
-    //   console.log(res)
-    //   const json = await res.json();
-    //   dispatch(loadTodos(json));
-    //   console.log(res);
-    // }catch{
-    //   console.log("failed to load")
-    // }
+    })
+    .then((res) =>  res.json())
+    .then((data) => dispatch(loadTodos(data)))
+    .catch((err) => console.error(err));
   }
   
   useEffect(() => {
@@ -41,7 +30,7 @@ const TodoList = () => {
   }, []);
   
   const handleUpdate = (itemId, newState) => {
-    fetch('http://localhost:8080/todo', {
+    fetch('http://localhost:8080/todo/'+itemId, {
       method: 'PUT',
       headers: {
         'Accept': 'application/json',
@@ -49,15 +38,12 @@ const TodoList = () => {
         'Access-Control-Allow-Origin': '*'
       },
       body: JSON.stringify({
-        id: itemId,
         newState: newState
       })
-    }).then((res) => {
-      console.log(res);
-      return res.json();
-    }).then((data) => {
-      dispatch(updateTodoState(itemId, newState));
-    });
+    })
+    .then((res) => res.json())
+    .then((data) => dispatch(updateTodoState(itemId, newState)))
+    .catch((err) => console.error(err));
   }
 
   const handleDelete = (itemId) => {
@@ -68,12 +54,10 @@ const TodoList = () => {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*'
       }
-    }).then((res) => {
-      console.log(res);
-      return res.json();
-    }).then((data) => {
-      dispatch(deleteTodo(itemId));
-    });
+    })
+    .then((res) => res.json())
+    .then((data) => dispatch(deleteTodo(itemId)))
+    .catch((err) => console.error(err));
   }
 
   items.forEach(item => {
@@ -96,18 +80,21 @@ const TodoList = () => {
         <p>{item.text}</p>
         <div>
           {item.state === 2 
-          && <button onClick={(e) => handleUpdate(item.id, 0)}>not&nbsp;started</button>}
+          && <button onClick={(e) => handleUpdate(item._id, 0)}>not&nbsp;started</button>}
           {item.state !== 2 
-          && <button onClick={(e) => handleUpdate(item.id, 2)}>finished</button>}
+          && <button onClick={(e) => handleUpdate(item._id, 2)}>finished</button>}
           {item.state === 1 
-          && <button onClick={(e) => handleUpdate(item.id, 0)}>not&nbsp;started</button>}
+          && <button onClick={(e) => handleUpdate(item._id, 0)}>not&nbsp;started</button>}
           {item.state !== 1 
-          && <button onClick={(e) => handleUpdate(item.id, 1)}>in&nbsp;progress</button>}
-          <button onClick={(e) => handleDelete(item.id)}>delete</button>
+          && <button onClick={(e) => handleUpdate(item._id, 1)}>in&nbsp;progress</button>}
+          <button onClick={(e) => handleDelete(item._id)}>delete</button>
         </div>
       </li>
     
     switch (item.state){
+      case 0:
+        notStarted.push(newItem);
+        break;
       case 1:
         active.push(newItem);
         break;
@@ -115,7 +102,7 @@ const TodoList = () => {
         ended.push(newItem);
         break;
       default:
-        notStarted.push(newItem);
+        console.log("Invalid todo status");
     }
   });
 

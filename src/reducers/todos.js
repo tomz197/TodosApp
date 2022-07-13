@@ -9,11 +9,11 @@ const todosReducer = (state = [], action) => {
 
     case 'DELETETODO':
       let newList = [...state]
-      return newList.filter(item => item.id !== action.payload)
+      return newList.filter(item => item._id !== action.payload)
 
     case 'UPDATETODOSTATE':
       return state.map(item => 
-        item.id === action.itemId
+        item._id === action.itemId
         ? {...item, state: action.newState}
         : item
       );

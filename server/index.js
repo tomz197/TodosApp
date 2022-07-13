@@ -23,8 +23,10 @@ app.use((err, req, res, next) => {
   next();
 });
 
-const todoRouter = require('./routes/todo')
+const todoRouter = require('./routes/todos');
 app.use('/todo', todoRouter);
+const loginRouter = require('./routes/login');
+app.use('/login', loginRouter);
 
 
 
