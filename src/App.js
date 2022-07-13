@@ -1,17 +1,21 @@
 import React from 'react';
 import './App.css'
-import TodoList from './components/TodoList/TodoList';
-import AddTodoForm from "./components/AddTodoForm/AddTodoForm";
+import Main from './Main'
+import LoginForm from "./components/LoginForm/LoginForm";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 class TodoApp extends React.Component {
 
   render() {
     return (
-      <div className="App">
-        <h2>TODO</h2>
-        <AddTodoForm/>
-        <TodoList/>
-      </div>
+      <Router>
+          <div className="App" style={{ overflowX: 'hidden' }}>
+            <Routes>
+              <Route path="/" element={<LoginForm/>}/>
+              <Route path="/todo" element={<Main/>}/>
+            </Routes>
+          </div>
+      </Router>
     );
   }
 }

@@ -1,5 +1,11 @@
+const dotenv = require("dotenv")
+dotenv.config('../.env')
+
 const express = require('express');
 const router = express.Router();
+
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 const userModel = require('../models/user');
 
@@ -13,18 +19,56 @@ router.get('/', async (req, res) => {
   }
 })
 
-async function getUser(req, res, next) {
-  let findTodo
+router.post('/', getUser, async (req, res) => {
+  if (req.body.username === undefined || req.body.password === undefined) {
+    console.log("todo POST: invalid JSON format");
+    res.status(500).send({Error: 'Invalid JSON format'});
+    return;
+  }
+  if (typeof req.body.username !== 'string' || typeof req.body.password !== 'string') {
+    console.log("todo POST: wrong type")
+    res.status(500).send({Error: 'Invalid type'});
+    return;
+  }
+  
+  if (res.user != null){
+    const accessToken =jwt.sign({ id: res.user._id }, process.env.ACCESS_TOKEN_SECRET)
+    
+    return res.status(201).json({accessToken: accessToken});
+  }
+  
   try {
-    findTodo = await userModel.findById(req.params.id);
-    if (findTodo == null) {
-    return res.status(404).json({ message: 'Cannot find todo' });
+    const hashedPassword = await bcrypt.hash(req.body.password, 10)
+    const newUser = new userModel({
+      username: req.body.username,
+      password: hashedPassword,
+    });
+
+    newUser.save();
+    
+    const accessToken = jwt.sign({ id: newUser._id }, process.env.ACCESS_TOKEN_SECRET)
+    
+    return res.status(201).json({accessToken: accessToken});
+  } catch (err) {
+    return res.status(500).json(err);
+  }
+})
+
+async function getUser(req, res, next) {
+  let findUser = null;
+  try {
+    findUser = await userModel.findOne({username: req.body.username});
+    if (findUser != null) {
+      if (!await bcrypt.compare(req.body.password, findUser.password)) 
+      {
+        return res.status(500).json({ message: "wrong password" });
+      }
     }
   } catch (err) {
     return res.status(500).json({ message: err.message });
   }
 
-  res.todo = findTodo;
+  res.user = findUser;
   next();
 }
 

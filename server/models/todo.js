@@ -11,9 +11,9 @@ const todoSchema = new mongoose.Schema({
     max: 2,
     default: 0,
   },
-  id: {
-    type: Number,
-    default: Date.now,
+  userId: {
+    type: String,
+    required: true,
   }
 })
 

@@ -1,12 +1,28 @@
+const dotenv = require("dotenv")
+dotenv.config('../.env')
+
+const jwt = require('jsonwebtoken');
+
 const express = require('express');
 const router = express.Router();
 
 const todoModel = require('../models/todo');
 
 
-router.get('/', async (req, res) => {
+router.get('/', authenticateToken, async (req, res) => {
+  if (req.body.accessToken === undefined) {
+    console.log("todo POST: invalid JSON format");
+    res.status(500).send({Error: 'Invalid JSON format'});
+    return;
+  }
+  if (req.body.accessToken === undefined) {
+    console.log("todo POST: wrong type")
+    res.status(500).send({Error: 'Invalid type'});
+    return;
+  }
+  console.log(res.userId)
   try {
-    const todoList = await todoModel.find();
+    const todoList = await todoModel.find({ userId: res.userId });
     res.status(200).send(todoList);
   } catch (err) {
     res.status(500).send(err);
@@ -14,7 +30,7 @@ router.get('/', async (req, res) => {
 })
 
 
-router.post('/', async (req, res) => {
+router.post('/', authenticateToken, async (req, res) => {
   if (req.body.text === undefined) {
     console.log("todo POST: invalid JSON format");
     res.status(500).send({Error: 'Invalid JSON format'});
@@ -27,7 +43,8 @@ router.post('/', async (req, res) => {
   }
 
   const newTodo = new todoModel({
-    text: req.body.text
+    text: req.body.text,
+    userId: res.userId
   })
   
   try {
@@ -85,6 +102,18 @@ async function getTodo(req, res, next) {
 
   res.todo = findTodo;
   next();
+}
+
+function authenticateToken(req, res, next) {
+  const authHeader = req.headers['authorization']
+  const token = authHeader && authHeader.split(' ')[1]
+  if (token == null) return res.sendStatus(401)
+
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, data) => {
+    if (err) return res.sendStatus(403)
+    res.userId = data.id
+    next()
+  })
 }
 
 module.exports = router;
