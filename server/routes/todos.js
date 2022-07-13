@@ -56,7 +56,7 @@ router.post('/', authenticateToken, async (req, res) => {
 })
 
 
-router.put('/:id', getTodo, async (req, res) => {
+router.put('/:id', authenticateToken, getTodo, async (req, res) => {
   if (req.body.newState === undefined){
     console.log("todo PUT: invalid JSON format")
     res.status(500).send({Error: 'Invalit JSON format'});
@@ -80,7 +80,7 @@ router.put('/:id', getTodo, async (req, res) => {
 })
 
 
-router.delete('/:id', getTodo, async (req, res) => {
+router.delete('/:id', authenticateToken, getTodo, async (req, res) => {
   try {
     await res.todo.remove()
     res.status(200).json({ message: 'Deleted Todo' });
@@ -94,7 +94,10 @@ async function getTodo(req, res, next) {
   try {
     findTodo = await todoModel.findById(req.params.id);
     if (findTodo == null) {
-    return res.status(404).json({ message: 'Cannot find todo' });
+      return res.status(404).json({ message: 'Cannot find todo' });
+    }
+    if (findTodo.userId !== res.userId) {
+      return res.status(404).json({ message: 'Cannot modify todos of other users' });      
     }
   } catch (err) {
     return res.status(500).json({ message: err.message });
