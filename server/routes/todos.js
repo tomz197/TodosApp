@@ -10,16 +10,6 @@ const todoModel = require('../models/todo');
 
 
 router.get('/', authenticateToken, async (req, res) => {
-  if (req.body.accessToken === undefined) {
-    console.log("todo POST: invalid JSON format");
-    res.status(500).send({Error: 'Invalid JSON format'});
-    return;
-  }
-  if (req.body.accessToken === undefined) {
-    console.log("todo POST: wrong type")
-    res.status(500).send({Error: 'Invalid type'});
-    return;
-  }
   console.log(res.userId)
   try {
     const todoList = await todoModel.find({ userId: res.userId });

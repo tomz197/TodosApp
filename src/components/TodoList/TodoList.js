@@ -17,7 +17,8 @@ const TodoList = () => {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*'
+        'Access-Control-Allow-Origin': '*',
+        'Authorization': localStorage.getItem('accessToken')
       }
     })
     .then((res) =>  res.json())
@@ -35,7 +36,8 @@ const TodoList = () => {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*'
+        'Access-Control-Allow-Origin': '*',
+        'Authorization': localStorage.getItem('accessToken')
       },
       body: JSON.stringify({
         newState: newState
@@ -52,7 +54,8 @@ const TodoList = () => {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*'
+        'Access-Control-Allow-Origin': '*',
+        'Authorization': localStorage.getItem('accessToken')
       }
     })
     .then((res) => res.json())
