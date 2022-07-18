@@ -39,7 +39,7 @@ function LoginForm() {
           .then((data) => {
             console.log(data.accessToken);
             localStorage.setItem('accessToken', `Bearer ${data.accessToken}`);
-            navigate('/todo')
+            navigate('/todo');
           })
           .catch((err) => {console.error(err); return;});
         
@@ -49,6 +49,11 @@ function LoginForm() {
         console.log(err);
       }
   }
+
+  // useEffect(() => {
+  //   if (localStorage.getItem('accessToken') !== undefined)
+  //     navigate('/todo');
+  // }, []);
 
   return (
     <Container component="main" maxWidth="xs">

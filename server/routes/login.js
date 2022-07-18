@@ -20,16 +20,6 @@ router.get('/', async (req, res) => {
 })
 
 router.post('/', getUser, async (req, res) => {
-  if (req.body.username === undefined || req.body.password === undefined) {
-    console.log("todo POST: invalid JSON format");
-    res.status(500).send({Error: 'Invalid JSON format'});
-    return;
-  }
-  if (typeof req.body.username !== 'string' || typeof req.body.password !== 'string') {
-    console.log("todo POST: wrong type")
-    res.status(500).send({Error: 'Invalid type'});
-    return;
-  }
   
   if (res.user != null){
     const accessToken =jwt.sign({ id: res.user._id }, process.env.ACCESS_TOKEN_SECRET)
@@ -55,6 +45,16 @@ router.post('/', getUser, async (req, res) => {
 })
 
 async function getUser(req, res, next) {
+  if (req.body.username === undefined || req.body.password === undefined) {
+    console.log("todo POST: invalid JSON format");
+    res.status(500).send({Error: 'Invalid JSON format'});
+    return;
+  }
+  if (typeof req.body.username !== 'string' || typeof req.body.password !== 'string') {
+    console.log("todo POST: wrong type")
+    res.status(500).send({Error: 'Invalid type'});
+    return;
+  }
   let findUser = null;
   try {
     findUser = await userModel.findOne({username: req.body.username});

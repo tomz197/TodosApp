@@ -2,6 +2,9 @@ import "./TodoList.css";
 import React, {useState, useEffect} from "react";
 import {useSelector, useDispatch} from 'react-redux';
 import {deleteTodo, updateTodoState, loadTodos} from '../../actions/todos';
+import ToggleButton from '@mui/material/ToggleButton';
+import Box from '@mui/material/Box';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 
 const TodoList = () => {
   const dispatch = useDispatch();
@@ -116,26 +119,33 @@ const TodoList = () => {
 
   return (
     <>
-    <div className="TodoFilter" onChange={(e) => handleFilter(e)}>
-        <div>
-          <div className={filter === '-1' ? "selectedFilter" : ""}>
-            <input type="radio" onClick={(e) => handleFilter(e)} value="-1" name="filter" id="filter1" defaultChecked/>
-            <label htmlFor="filter1">all</label>
-          </div>
-          <div className={filter === '0' ? "selectedFilter" : ""}>
-            <input type="radio" onClick={(e) => handleFilter(e)} value="0" name="filter" id="filter1" defaultChecked/>
-            <label htmlFor="filter1">Not Started</label>
-          </div>
-          <div className={filter === '1' ? "selectedFilter" : ""}>
-            <input type="radio" onClick={(e) => handleFilter(e)} value="1" name="filter" id="filter2"/>
-            <label htmlFor="filter2">in progress</label>
-          </div>
-          <div className={filter === '2' ? "selectedFilter" : ""}>
-            <input type="radio" onClick={(e) => handleFilter(e)} value="2" name="filter" id="filter3"/>
-            <label htmlFor="filter3">finished</label>
-          </div>
-        </div>
-    </div>
+    <Box
+      display="flex" 
+      flexDirection="column"
+      alignItems="center"
+      justifyContent="center"
+    >
+      <ToggleButtonGroup
+        value={filter}
+        exclusive
+        onChange={handleFilter}
+        aria-label="todo filter"
+        textAlign='center'
+      >
+        <ToggleButton value="-1" onClick={handleFilter} aria-label="All">
+          All
+        </ToggleButton>
+        <ToggleButton value="0" onClick={handleFilter} aria-label="Not started">
+          Not started
+        </ToggleButton>
+        <ToggleButton value="1" onClick={handleFilter} aria-label="In progress">
+          In progress
+        </ToggleButton>
+        <ToggleButton value="2" onClick={handleFilter} aria-label="Finished">
+          Finished
+        </ToggleButton>
+      </ToggleButtonGroup>
+    </Box>
     <ul className="TodoList">
       {notStarted.length > 0 && <div><h4>Not started</h4>{notStarted}</div>}
       {active.length > 0 && <div><h4>In progress</h4>{active}</div>}

@@ -10,7 +10,6 @@ const todoModel = require('../models/todo');
 
 
 router.get('/', authenticateToken, async (req, res) => {
-  console.log(res.userId)
   try {
     const todoList = await todoModel.find({ userId: res.userId });
     res.status(200).send(todoList);
@@ -104,6 +103,7 @@ function authenticateToken(req, res, next) {
 
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, data) => {
     if (err) return res.sendStatus(403)
+    
     res.userId = data.id
     next()
   })

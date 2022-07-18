@@ -2,6 +2,10 @@ import './AddTodoForm.css';
 import React, {useState} from 'react';
 import {useDispatch} from 'react-redux';
 import {addTodo} from '../../actions/todos';
+import TextField from '@mui/material/TextField';
+import IconButton from '@mui/material/IconButton';
+import AddIcon from '@mui/icons-material/Add';
+import Box from '@mui/material/Box';
 
 const AddTodoForm = () => {
   const dispatch = useDispatch();
@@ -34,17 +38,26 @@ const AddTodoForm = () => {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="AddTodoForm">
-      <p>What needs to be done?</p>
-      <input
-        id="new-todo"
-        onChange={(e) => setInputText(e.target.value)}
+    <Box component="form" className="AddTodoForm" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+      <TextField
+        margin="normal"
         value={inputText}
+        onChange={(e) => setInputText(e.target.value)}
+        id="inputText"
+        label="Todo"
+        name="Todo"
+        InputProps={{
+          endAdornment: (
+            <IconButton
+                type="submit"
+                variant="contained"
+              >
+                <AddIcon/>
+            </IconButton>
+          )
+        }}
       />
-      <button>
-        Add
-      </button>
-    </form>
+    </Box>
   );
 }
 

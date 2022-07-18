@@ -1,34 +1,3 @@
 .AddTodoForm {
   text-align: center;
 }
-.AddTodoForm p{
-  margin: 0;
-  font-size: 1.1rem;
-}
-.AddTodoForm :is(button, input) {
-  border: 0;
-  margin: 0.5rem 0;
-  padding: 0.5em 1em;
-  background-color: rgb(240, 240, 240);
-}
-
-.AddTodoForm input{
-  border-radius: 1em 0 0 1em;
-}
-.AddTodoForm input:focus{
-  background-color: rgb(220, 220, 220);
-  outline: none;
-}
-.AddTodoForm input:hover{
-  background-color: rgb(230, 230, 230);
-}
-.AddTodoForm button{
-  border-radius: 0 1em 1em 0;
-  background-color: rgb(220, 220, 220);
-  cursor: pointer;
-  font-weight: 600;
-}
-.AddTodoForm button:is(:hover, :focus){
-  background-color: rgb(210, 210, 210);
-  outline: none;
-}
