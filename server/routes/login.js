@@ -45,6 +45,10 @@ router.post('/', getUser, async (req, res) => {
 })
 
 async function getUser(req, res, next) {
+  if (req.body === undefined) {
+    res.status(500).send({Error: 'Missing body'});
+    return;
+  }
   if (req.body.username === undefined || req.body.password === undefined) {
     console.log("todo POST: invalid JSON format");
     res.status(500).send({Error: 'Invalid JSON format'});

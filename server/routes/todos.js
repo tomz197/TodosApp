@@ -20,6 +20,10 @@ router.get('/', authenticateToken, async (req, res) => {
 
 
 router.post('/', authenticateToken, async (req, res) => {
+  if (req.body === undefined) {
+    res.status(500).send({Error: 'Missing body'});
+    return;
+  }
   if (req.body.text === undefined) {
     console.log("todo POST: invalid JSON format");
     res.status(500).send({Error: 'Invalid JSON format'});
@@ -46,6 +50,10 @@ router.post('/', authenticateToken, async (req, res) => {
 
 
 router.put('/:id', authenticateToken, getTodo, async (req, res) => {
+  if (req.body === undefined) {
+    res.status(500).send({Error: 'Missing body'});
+    return;
+  }
   if (req.body.newState === undefined){
     console.log("todo PUT: invalid JSON format")
     res.status(500).send({Error: 'Invalit JSON format'});
