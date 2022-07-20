@@ -105,16 +105,20 @@ async function getTodo(req, res, next) {
 }
 
 function authenticateToken(req, res, next) {
-  const authHeader = req.headers['authorization']
-  const token = authHeader && authHeader.split(' ')[1]
-  if (token == null) return res.sendStatus(401)
+  try {
+    const authHeader = req.headers['authorization']
+    const token = authHeader && authHeader.split(' ')[1]
+    if (token == null) return res.sendStatus(401)
 
-  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, data) => {
-    if (err) return res.sendStatus(403)
-    
-    res.userId = data.id
-    next()
-  })
+    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, data) => {
+      if (err) return res.sendStatus(403)
+      
+      res.userId = data.id
+      next()
+    })
+  } catch (err) {
+    return res.status(500).json({ message: err.message });
+  }
 }
 
 module.exports = router;
